@@ -23,10 +23,10 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#D4DE95]">
+    <div className="min-h-screen flex flex-col bg-[#D4DE95] w-screen">
       {/* Navigation */}
-      <nav className="bg-[#BAC095] shadow-sm w-full">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+      <nav className="bg-[#BAC095] shadow-sm w-screen">
+        <div className="w-screen px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="text-2xl font-bold" style={{ color: '#636B2F' }}>
@@ -135,13 +135,13 @@ const Layout = ({ children }) => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="flex-grow w-screen">
         {children}
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#3D4127] text-[#D4DE95] py-8 mt-12 w-full">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+      <footer className="bg-[#3D4127] text-[#D4DE95] py-8 mt-12 w-screen">
+        <div className="w-screen px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <h3 className="text-lg font-bold mb-4">About Us</h3>

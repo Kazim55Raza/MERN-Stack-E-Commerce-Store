@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
+import { useGetSellerProductsQuery} from '../slices/productsApiSlice';
 // import { useDispatch } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import Layout from '../components/Layout';
@@ -13,20 +14,38 @@ const ProductsPage = () => {
   const [search, setSearch] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  // const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
-  // // 2. ADD THIS LINE to create the toggle variable
-  // const [isMyProducts, setIsMyProducts] = useState(false);
+  // 2. ADD THIS LINE to create the toggle variable
+  const [isMyProducts, setIsMyProducts] = useState(false);
 
   const params = {
     ...(search && { search }),
     ...(category && { category }),
     ...(minPrice && { minPrice }),
     ...(maxPrice && { maxPrice }),
-    // ...(isMyProducts && userInfo && { sellerId: userInfo._id }),
+    ...(isMyProducts && userInfo && { sellerId: userInfo._id }),
   };
+  // 1. Run Public hook ONLY if NO user is logged in
+  const { 
+    data: publicProducts, 
+    isLoading: loadingPublic, 
+    error: errorPublic 
+  } = useGetProductsQuery(params, { skip: !!userInfo });
 
-  const { data: products = [], isLoading, error } = useGetProductsQuery(params);
+  // 2. Run Seller hook ONLY if a user IS logged in
+  const { 
+    data: sellerProducts, 
+    isLoading: loadingSeller, 
+    error: errorSeller 
+  } = useGetSellerProductsQuery(params, { skip: !userInfo });
+
+  // 3. Consolidate the data
+  const products = userInfo ? (sellerProducts || []) : (publicProducts || []);
+  const isLoading = userInfo ? loadingSeller : loadingPublic;
+  const error = userInfo ? errorSeller : errorPublic;
+  // const { data: products = [], isLoading, error } = useGetProductsQuery(params);
+  // const { data: products = [], isLoading, error } = useGetSellerProductsQuery(params);
 
   const categories = ['Electronics', 'Clothing', 'Books', 'Home', 'Sports', 'Toys'];
  const getBase64Image = (image) => {
@@ -63,9 +82,9 @@ const ProductsPage = () => {
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-screen px-4 sm:px-6 lg:px-8 py-8 bg-[#D4DE95]">
         {/* Header */}
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Products</h1>
+        <h1 className="text-4xl font-bold mb-8" style={{ color: '#3D4127' }}>Products</h1>
 
         {/* Search and Filters */}
         <div className="mb-8 bg-white p-6 rounded-lg shadow">

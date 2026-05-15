@@ -37,6 +37,7 @@ const LoginScreen = () => {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
+      console.log(email, password );
       if (res.isSeller) {
         navigate('/seller/dashboard');
       } else {
