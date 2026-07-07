@@ -87,7 +87,7 @@ export default function HomePage() {
                 <p className="text-[#636B2F]">Trusted Sellers</p>
               </div>
               <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-                <h3 className="text-4xl font-bold text-[#3D4127] mb-2">50K+</h3>
+                <h3 className="text-4xl font-bold text-[#3D4127] mb-2">40K+</h3>
                 <p className="text-[#636B2F]">Happy Customers</p>
               </div>
             </div>
